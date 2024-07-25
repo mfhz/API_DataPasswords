@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('files', function (Blueprint $table) {
             $table->id();
             $table->text('computer_path')->comment('Ruta fisica del computador');
-            $table->text('file_path')->comment('Ruta fisica del servidor');
+            $table->text('server_path')->comment('Ruta fisica del servidor');
             $table->unsignedBigInteger('id_hostname')->comment('Id equipo');
             $table->foreign('id_hostname')->references('id')->on('hostname');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));

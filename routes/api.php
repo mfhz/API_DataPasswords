@@ -16,6 +16,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', 'App\Http\Controllers\AuthController@login');
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:api')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::resource('hostname', 'App\Http\Controllers\HostnameController');
+    Route::post('/saveHostname', 'App\Http\Controllers\HostnameController@onSaveName');
+
+    Route::resource('files', 'App\Http\Controllers\FilesController');
 });
