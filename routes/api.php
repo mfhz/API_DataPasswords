@@ -22,7 +22,8 @@ Route::middleware('auth:api')->group(function () {
     });
 
     Route::resource('hostname', 'App\Http\Controllers\HostnameController');
-    Route::post('/saveHostname', 'App\Http\Controllers\HostnameController@onSaveName');
 
     Route::resource('files', 'App\Http\Controllers\FilesController');
+
+    Route::resource('keyFiles', 'App\Http\Controllers\KeyFilesController');
 });

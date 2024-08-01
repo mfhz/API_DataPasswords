@@ -29,8 +29,10 @@ class FilesController extends Controller
     {
         try {
             DB::beginTransaction();
-            $sNameResource = 'fil_'.date('Ymd').time().'.'.$request->file->getClientOriginalExtension();
-            Storage::disk('public')->put("fileName/$sNameResource", file_get_contents($request->file));
+            $fileData = base64_decode($request->server_path, true);
+            $extension = $this->getExtensionFromBase64($request->server_path);
+            $sNameResource = 'fil_'.date('Ymd').time().'.'.$extension;
+            Storage::disk('public')->put("fileName/$sNameResource", $fileData);
             $oFiles = Files::create([
                 'computer_path' => $request->computer_path,
                 'server_path' => $sNameResource,
@@ -71,5 +73,34 @@ class FilesController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function getExtensionFromBase64($base64String)
+    {
+        // Decodificar la cadena base64
+        $fileData = base64_decode($base64String);
+        // dd($fileData);
+
+        // Crear una instancia de finfo
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+        // dd($finfo);
+
+        // Obtener el tipo MIME del contenido decodificado
+        $mimeType = $finfo->buffer($fileData);
+        // dd($mimeType);
+
+        // Mapear el tipo MIME a una extensión de archivo
+        $mimeTypes = [
+            'text/plain' => 'txt',
+            'image/jpeg' => 'jpg',
+            'image/png' => 'png',
+            'application/pdf' => 'pdf',
+            // Agrega más tipos MIME y sus extensiones correspondientes según sea necesario
+        ];
+
+        $extension = isset($mimeTypes[$mimeType]) ? $mimeTypes[$mimeType] : 'bin';
+
+        // Retornar la extensión como respuesta
+        return $extension;
     }
 }

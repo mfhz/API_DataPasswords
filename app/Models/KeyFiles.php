@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class KeyFiles extends Model
 {
     use HasFactory;
+    protected $table = 'key_files';
 
     protected $fillable = [
         'name_key',

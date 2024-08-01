@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 
-class StoreFilesRequest extends FormRequest
+class StoreFilesKeyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,9 @@ class StoreFilesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'computer_path' => 'required|string',
-            'server_path' => 'required|string',
-            'id_hostname' => 'required|integer',
+            'name_key' => 'required|string',
+            'line' => 'required|integer',
+            'id_file' => 'required|integer',
         ];
     }
 
