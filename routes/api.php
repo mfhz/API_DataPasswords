@@ -21,9 +21,11 @@ Route::middleware('auth:api')->group(function () {
         return $request->user();
     });
 
-    Route::resource('hostname', 'App\Http\Controllers\HostnameController');
+    Route::resource('hostname', 'App\Http\Controllers\HostnameController');    
 
     Route::resource('files', 'App\Http\Controllers\FilesController');
-
-    Route::resource('keyFiles', 'App\Http\Controllers\KeyFilesController');
+    Route::get('/getFile/{idHostname}', 'App\Http\Controllers\FilesController@onGetFile');
+    
+    Route::resource('keyFiles', 'App\Http\Controllers\KeyFilesController');    
+    Route::post('/onSaveFile', 'App\Http\Controllers\KeyFilesController@onSaveFile');
 });

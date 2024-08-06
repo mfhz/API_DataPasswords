@@ -92,10 +92,11 @@ class FilesController extends Controller
         // Mapear el tipo MIME a una extensión de archivo
         $mimeTypes = [
             'text/plain' => 'txt',
-            'image/jpeg' => 'jpg',
-            'image/png' => 'png',
             'application/pdf' => 'pdf',
-            // Agrega más tipos MIME y sus extensiones correspondientes según sea necesario
+            'text/xml' => 'xml',
+            'text/plain' => 'csv',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'xlsx',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'docx'
         ];
 
         $extension = isset($mimeTypes[$mimeType]) ? $mimeTypes[$mimeType] : 'bin';
@@ -103,4 +104,14 @@ class FilesController extends Controller
         // Retornar la extensión como respuesta
         return $extension;
     }
+
+    public function onGetFile($idHostname)
+    {        
+        try {
+            $oFiles = Files::where('id_hostname', $idHostname)->get();
+            return $this->successResponse($oFiles, 'The record was showed success', 200);
+        } catch (\Throwable $exception) {
+            return $this->errorResponse('The record could not be showed', $exception->getMessage(), 422);
+        }   
+    }    
 }

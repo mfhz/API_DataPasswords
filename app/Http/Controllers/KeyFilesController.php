@@ -69,4 +69,22 @@ class KeyFilesController extends Controller
     {
         //
     }
+    
+    public function onSaveFile(StoreFilesKeyRequest $request)
+    {
+        try {
+            DB::beginTransaction();
+            $oFiles = KeyFiles::create([
+                'name_key' => $request['name_key'],
+                'line' => $request['line'],
+                'id_file' => $request['id_file'],                
+            ]);
+            DB::commit();
+            return $this->successResponse($oFiles, 'The record was saved success', 200);
+        } catch (\Throwable $exception) {
+            DB::rollBack();
+            return $this->errorResponse('The record could not be saved', $exception->getMessage(), 422);
+        }
+        
+    }
 }
